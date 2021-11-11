@@ -20,10 +20,4 @@ import Embed from './Embed';
   const onGoingDiscounts = games.filter( (game: Game) => game.getStartDate() < timeNow && game.getEndDate() > timeNow );
   const embeds = onGoingDiscounts.map( (game: Game) => new Embed(game) );
   await sendEmbeds(embeds, 'FREE NOW!', 'Current promos sent successfully!');
-
-  const nextMonth = new Date(timeNow.getFullYear(), timeNow.getMonth() + 1, 1);
-  const futureDiscounts = games.filter( (game: Game) => game.getStartDate() > timeNow && game.getEndDate() < nextMonth );
-  const futureEmbeds = futureDiscounts.map( (game: Game) => new Embed(game) );
-
-  await sendEmbeds(futureEmbeds, 'COMING SOON', 'Coming soon promos sent successfully!');
 })();
