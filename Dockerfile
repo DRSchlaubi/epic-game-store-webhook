@@ -1,12 +1,20 @@
-FROM node:17
-ENV NODE_ENV=production
+FROM node:17 as builder
 
-WORKDIR /app
+COPY . .
+
+RUN npm i --dev
+
+RUN npm run build
+
+RUN pwd
+RUN ls /
+
+FROM node:17
 
 COPY ["package.json", "package-lock.json*", "./"]
 
 RUN npm install --production
 
-COPY . .
+COPY --from=builder build build
 
-CMD [ "npm", "start" ]
+CMD [ "node", "build/index.js" ]
